@@ -2,14 +2,10 @@ package kz.pine.services;
 
 import kz.pine.domain.Cart;
 import kz.pine.domain.CartItem;
-import kz.pine.domain.Category;
-import kz.pine.domain.Product;
 import kz.pine.form.ItemDetails;
 import kz.pine.form.ItemForm;
-import kz.pine.form.ProductForm;
 import kz.pine.repositories.CartItemRepository;
 import kz.pine.repositories.CartRepository;
-import kz.pine.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -68,7 +64,7 @@ public class CartItemService {
         ItemDetails itemForm = new ItemDetails();
         itemForm.setId(item.getId());
         itemForm.setQuantity(item.getQuantity());
-        itemForm.setProduct(productService.getDetails(item.getProduct()));
+        itemForm.setProduct(productService.getForm(item.getProduct()));
         itemForm.setCart(item.getCart().getId());
         return itemForm;
     }

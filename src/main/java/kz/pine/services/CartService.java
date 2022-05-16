@@ -2,11 +2,9 @@ package kz.pine.services;
 
 import kz.pine.domain.Cart;
 import kz.pine.domain.CartItem;
-import kz.pine.domain.Product;
 import kz.pine.domain.User;
 import kz.pine.form.CartForm;
 import kz.pine.form.ItemDetails;
-import kz.pine.form.ProductForm;
 import kz.pine.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +74,7 @@ public class CartService {
             ItemDetails form = new ItemDetails();
             form.setId(item.getId());
             form.setQuantity(item.getQuantity());
-            form.setProduct(productService.getDetails(item.getProduct()));
+            form.setProduct(productService.getForm(item.getProduct()));
             itemForms.add(form);
         }
         return itemForms;

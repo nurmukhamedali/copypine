@@ -18,6 +18,11 @@ import java.util.HashMap;
 public class MainController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @GetMapping
     public String main(
@@ -25,11 +30,13 @@ public class MainController {
             @AuthenticationPrincipal User user
     ) {
         HashMap<Object, Object> data = new HashMap<>();
-
-        data.put("profile", user);
-        data.put("categories", categoryService.findAllDetails());
-
+        if (user != null) {
+            data.put("profile", user);
+            data.put("categories", categoryService.findAllDetails());
+            data.put("products", productService.findAllForm(null));
+        }
         model.addAttribute("frontendData", data);
+        model.addAttribute("isDevMode", "dev".equals(profile));
         return "index";
     }
 }
