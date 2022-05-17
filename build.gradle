@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'org.projectlombok:lombok:1.18.20'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE'

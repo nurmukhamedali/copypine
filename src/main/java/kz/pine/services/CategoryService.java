@@ -1,69 +1,42 @@
 package kz.pine.services;
 
 import kz.pine.domain.Category;
-import kz.pine.form.CategoryForm;
 import kz.pine.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CategoryService {
-    @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public List<Category> findAll(){
         return categoryRepository.findAll();
     }
 
-    public Category create(CategoryForm categoryForm){
-        Category category = new Category();
-        category.setName(categoryForm.getName());
-        category.setImage(categoryForm.getImage());
-        return categoryRepository.save(category);
+    public Category create(Category category) {
+        Category savedCategory = this.categoryRepository.save(category);
+        return savedCategory;
     }
 
-    public Category update(Category oldCategory, CategoryForm category){
-        oldCategory.setName(category.getName());
-        oldCategory.setImage(category.getImage());
-        return categoryRepository.save(oldCategory);
+    public Category update(Category old, Category category) {
+        Category updatedCategory = this.categoryRepository.save(copyProperties(old, category));
+        return updatedCategory;
     }
 
     public void delete(Category category){
-        categoryRepository.delete(category);
+        this.categoryRepository.delete(category);
     }
 
-    public CategoryForm getDetails(Category category){
-        CategoryForm c = new CategoryForm();
-        c.setId(category.getId());
-        c.setName(category.getName());
-        c.setImage(category.getImage());
-        return c;
-    }
-
-    public CategoryForm createDetails(CategoryForm category){
-        return getDetails(create(category));
-    }
-
-    public CategoryForm updateDetails(Category oldCategory, CategoryForm category){
-        return getDetails(update(oldCategory, category));
-    }
-
-    public List<CategoryForm> findAllDetails(){
-        List<CategoryForm> forms = new ArrayList<>();
-        for (Category category: findAll()) {
-            forms.add(getDetails(category));
-        }
-        return forms;
-    }
-
-    public Category get(Long id){
-        return categoryRepository.getById(id);
-    }
-
-    public boolean exist(Long id) {
-        return categoryRepository.existsById(id);
+    private Category copyProperties(Category old, Category category){
+        old.setName(category.getName());
+        old.setImage(category.getImage());
+        return old;
     }
 }
